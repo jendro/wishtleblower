@@ -18,3 +18,14 @@ Note: This core style file includes all external plugins css file.
 @import url("plugins/chosen.min.css");
 @import url("plugins/jquery-ui.min.css");
 @import url("shortcode/default.css");
+
+.stick li{
+    padding:15px 13px 10px !important;
+}
+.stick .logo{
+    margin-top:0;
+    padding: 10px!important;
+}
+.stick .logo img{
+    height:40px;
+}

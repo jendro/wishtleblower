@@ -11,25 +11,21 @@ class Laporan extends Model
 {
     
     protected $table = 'laporan';
-
-    public static function validator(array $data)
-    {
-        return Validator::make($data, [
-            'nama_pelapor'=>['required','string'],
-            'telepon_palapor'=>['required','string'],
-            'email_pelapor'=>['required','email'],
-            'nama_terlapor'=>['required','string'],
-            'jabatan_terlapor'=>['required','string'],
-            'waktu_kejadian'=>['required','string'],
-            'lokasi_kejadian'=>['required','string'],
-            'kronologis_kejadian'=>['required','string'],
-            'detail_kejadian'=>['required','string'],
-        ]);
-    }
     
     protected $fillable = [
         'jenis_laporan_id', 'user_id', 'nama_pelapor', 'telepon_palapor', 'email_pelapor', 'nama_terlapor', 'jabatan_terlapor', 'waktu_kejadian', 'lokasi_kejadian', 'kronologis_kejadian', 'detail_kejadian'
     ];
+
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function($query){
+            $query->user_id = auth()->user()->id;
+        });
+
+    }
 
 
     /** SCOPE */
