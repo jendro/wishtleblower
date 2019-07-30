@@ -18,11 +18,13 @@ class TanggapanController extends Controller
 
     public function create(Request $request)
     {
-        $data = $request->all();
-        if(TanggapanLaporan::validator($data)){
-            $data['user_id'] = Auth::user()->id;
-            $laporan = TanggapanLaporan::create($data);
-        }
+        
+        $this->validate($request,[
+            'tanggapan'=>'required|string'
+        ]);
+        
+        $laporan = TanggapanLaporan::create($request->all());
+
         return redirect()->route('laporan.detail',['laporan'=>$request->laporan_id]);
     }
 

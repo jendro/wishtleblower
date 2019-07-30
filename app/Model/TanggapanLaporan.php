@@ -13,14 +13,17 @@ class TanggapanLaporan extends Model
 
     protected $fillable = ['laporan_id','user_id','tanggapan'];
 
-    public static function validator(array $data)
+    protected static function boot()
     {
-        return Validator::make($data, [
-            'tanggapan'=>['required','string']
-        ]);
+        parent::boot();
+
+        static::creating(function($query){
+            $query->user_id = auth()->user()->id;
+        });
+
     }
-    /** START RELATION */
     
+    /** START RELATION */    
     public function laporan()
     {
         return $this->belongsTo('App\Model\Laporan','laporan_id');    
