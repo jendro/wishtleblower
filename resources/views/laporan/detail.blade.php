@@ -7,7 +7,7 @@
     <section class="service-area gray-bg ptb-50">
         <div class="container">
             <div class="row service-all white-bg" style="min-height:500px">
-                <div class="{{ (Auth::user()->userrole=='admin')?'col-md-10':'col-md-7' }}">
+                <div class=" @admin col-md-10 @else col-md-7 @endadmin">
                     <h3>Detail Laporan</h3>
                     <h4 class="title">Pelapor</h4>
                     Nama : {{ $laporan->nama_pelapor }} <br>
@@ -32,9 +32,9 @@
                     @endif
                     <hr>
                     <h4 class="title">Tanggapan</h4>
-                    @if(Auth::user()->userrole!='admin' && $laporan->tanggapan()->count()==0)
+                    @user($laporan->tanggapan()->count()==0)
                      *belum ada tanggapan...
-                    @endif
+                    @enduser
                     @foreach($laporan->tanggapan as $tanggapan)
                         <p class="tanggapan">
                             Ditanggapi Oleh {{ $tanggapan->petugas->username }}, tanggal {{ $tanggapan->created_at }}<br>
@@ -42,7 +42,7 @@
                             {{ $tanggapan->tanggapan }}
                         </p>
                     @endforeach
-                    @if(Auth::user()->userrole=='admin')
+                    @admin
                         <form action="{{ route('tanggapan.create') }}" method="post">
                             @csrf
                             <input type="hidden" name="laporan_id" value="{{ $laporan->id }}">
@@ -56,13 +56,13 @@
                                 <a href="{{ route('laporan.admin') }}" class="pull-right btn btn-warning" style="margin-right:10px">Kembali</a>
                             </div>
                         </form>
-                        @endif
+                    @endadmin
                 </div>
-                @if(Auth::user()->userrole!='admin')
+                @user
                     <div class="col-md-3 col-md-offset-2">
                         @include('laporan.component.sidebar')
                     </div>
-                @endif
+                @enduser
             </div>
         </div>
     </section>
