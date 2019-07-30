@@ -26,6 +26,11 @@
                     <b>Detail</b><br>
                     {{ $laporan->detail_kejadian }}
                     <hr>
+                    <b>File Pendukung</b><br>
+                    @if(!empty($laporan->file))
+                        <a class="btn btn-success" href="{{ $laporan->file }}" target="_blank">Download</a>
+                    @endif
+                    <hr>
                     <h4 class="title">Tanggapan</h4>
                     @if(Auth::user()->userrole!='admin' && $laporan->tanggapan()->count()==0)
                      *belum ada tanggapan...

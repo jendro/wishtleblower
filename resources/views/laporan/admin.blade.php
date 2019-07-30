@@ -44,6 +44,12 @@
                                         <br>
                                         <b>Detail Kejadian :</b><br>
                                         {{ $laporan->detail_kejadian }}
+                                        <br>
+                                        <br>
+                                        <b>File Pendukung :</b><br>
+                                        @if(!empty($laporan->file))
+                                            <a class="text-blue" href="{{ $laporan->file }}" target="_blank">Download</a>
+                                        @endif
                                     </td>
                                     <td>
                                         <a href="{{ route('laporan.detail',['laporan'=>$laporan->id]) }}" class="btn btn-success">Beri Tanggapan</a>

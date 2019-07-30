@@ -13,7 +13,7 @@ class Laporan extends Model
     protected $table = 'laporan';
     
     protected $fillable = [
-        'jenis_laporan_id', 'user_id', 'nama_pelapor', 'telepon_palapor', 'email_pelapor', 'nama_terlapor', 'jabatan_terlapor', 'waktu_kejadian', 'lokasi_kejadian', 'kronologis_kejadian', 'detail_kejadian'
+        'jenis_laporan_id', 'user_id', 'nama_pelapor', 'telepon_palapor', 'email_pelapor', 'nama_terlapor', 'jabatan_terlapor', 'waktu_kejadian', 'lokasi_kejadian', 'kronologis_kejadian', 'detail_kejadian', 'file'
     ];
 
 
@@ -27,7 +27,21 @@ class Laporan extends Model
 
     }
 
+    /** ACTION */
+    public function uploadFile($file)
+    {
+        if(!empty($file)) {
+            
+            //upload image
+            $file->move(
+                public_path() . '/fileReport/',
+                $file_path = 'file-'.$this->id.'.'.$file->getClientOriginalExtension()
+            );
 
+            //update db
+            $this->update(['file'=>asset('/fileReport/'.$file_path)]);
+        }
+    }
     /** SCOPE */
     public function scopeDatauser($query)
     {

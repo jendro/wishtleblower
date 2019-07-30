@@ -19,7 +19,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @php($no = 1)
                             @foreach($laporan_r as $laporan)
                                 <tr>
                                     <td class="text-center">{{ $no++ }}</td>
@@ -38,6 +37,12 @@
                                         <br>
                                         <b>Detail Kejadian :</b><br>
                                         {{ $laporan->detail_kejadian }}
+                                        <br>
+                                        <br>
+                                        <b>File Pendukung :</b><br>
+                                        @if(!empty($laporan->file))
+                                            <a class="text-blue" href="{{ $laporan->file }}" target="_blank">Download</a>
+                                        @endif
                                     </td>
                                     <td>
                                         {{ ($laporan->tanggapan->count() == 0)?'belum':'sudah' }}<br><br>
@@ -47,6 +52,9 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <div class="text-center" style="margin-top:30px;padding-top:30px;border-top:1px solid #eee">
+                        {{ $laporan_r->links() }}
+                    </div>
                 </div>
                 <div class="col-md-3">
                     @include('laporan.component.sidebar')

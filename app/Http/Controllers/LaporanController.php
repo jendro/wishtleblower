@@ -15,23 +15,27 @@ class LaporanController extends Controller
         $this->middleware('auth');
     }
     
-    public function admin()
+    public function admin(Request $request)
     {
         if(Auth::user()->userrole!='admin'){
             return redirect()->route('laporan.index');
         }else{
+            $jumlah = 10;
             return view('laporan.admin',[
                 'menu'=>'lapor',
-                'laporan_r'=>Laporan::all()
+                'no'=>($request->page-1)*$jumlah+1,
+                'laporan_r'=>Laporan::paginate($jumlah)
             ]);
         }
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $jumlah = 10;
         return view('laporan.index',[
             'menu'=>'lapor',
-            'laporan_r'=>Laporan::dataUser()->get()
+            'no'=>($request->page-1)*$jumlah+1,
+            'laporan_r'=>Laporan::dataUser()->paginate($jumlah)
         ]);
     }
 
@@ -73,6 +77,7 @@ class LaporanController extends Controller
             
         $data = $request->all();
         $laporan = Laporan::create($data);
+        $laporan->uploadFile($request->file('file'));
         return redirect()->route('laporan.detail',['laporan'=>$laporan->id]);
     }
 
